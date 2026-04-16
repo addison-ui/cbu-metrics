@@ -32,7 +32,11 @@
         <p>Fall 2025 — 14U Team</p>
       </div>
       <button class="btn" onclick="openForm()">+ Log Session</button>
+    </div>
 
+    <div style="margin-bottom: 20px;">
+      <input id="search-input" type="text" placeholder="Search players..." onkeyup="filterPlayers()" style="width: 100%; max-width: 400px; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;" />
+    </div>
     <div class="player-card">
       <div class="player-top">
         <div class="avatar">JM</div>
@@ -182,6 +186,8 @@
     const existing = document.querySelectorAll('.player-card');
     existing.forEach(card => card.remove());
 
+    window.allPlayers = players;
+
     for (const player of players) {
       const { data: sessions } = await client
         .from('metric_sessions')
@@ -233,7 +239,14 @@
       document.body.appendChild(card);
     }
   }
-
+function filterPlayers() {
+    const search = document.getElementById('search-input').value.toLowerCase();
+    const cards = document.querySelectorAll('.player-card');
+    cards.forEach(card => {
+      const name = card.querySelector('.player-name').textContent.toLowerCase();
+      card.style.display = name.includes(search) ? 'block' : 'none';
+    });
+  }
   function openForm() {
     document.getElementById('overlay').style.display = 'block';
     document.getElementById('form-popup').style.display = 'block';
