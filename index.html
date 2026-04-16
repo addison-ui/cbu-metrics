@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CBU Metrics</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 24px; color: #1a1a1a; }
+      .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+      .header h1 { font-size: 22px; font-weight: 600; }
+      .header p { font-size: 13px; color: #666; margin-top: 4px; }
+      .btn { background: #185FA5; color: white; border: none; border-radius: 8px; padding: 10px 18px; font-size: 13px; cursor: pointer; }
+      .player-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 16px; border: 1px solid #e0e0e0; }
+      .player-top { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+      .avatar { width: 42px; height: 42px; border-radius: 50%; background: #B5D4F4; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; color: #0C447C; flex-shrink: 0; }
+      .player-name { font-size: 15px; font-weight: 600; }
+      .player-meta { font-size: 12px; color: #888; margin-top: 2px; }
+      .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+      .metric-box { background: #f4f4f4; border-radius: 8px; padding: 12px; }
+      .metric-label { font-size: 11px; color: #888; margin-bottom: 4px; }
+      .metric-value { font-size: 22px; font-weight: 600; }
+      .metric-unit { font-size: 11px; color: #888; }
+      .metric-trend { font-size: 11px; color: #1D9E75; margin-top: 4px; }
+    </style>
+  </head>
+  <body>
+
+    <div class="header">
+      <div>
+        <h1>CBU Hitter Metrics</h1>
+        <p>Fall 2025 — 14U Team</p>
+      </div>
+      <button class="btn" onclick="openForm()">+ Log Session</button>
+
+    <div class="player-card">
+      <div class="player-top">
+        <div class="avatar">JM</div>
+        <div>
+          <div class="player-name">Jake Martinez</div>
+          <div class="player-meta">14U · Right-handed · Last session Apr 10</div>
+        </div>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric-box">
+          <div class="metric-label">Peak Exit Velo</div>
+          <div class="metric-value">94 <span class="metric-unit">mph</span></div>
+          <div class="metric-trend">↑ +3 mph since Aug</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-label">Avg Exit Velo</div>
+          <div class="metric-value">81 <span class="metric-unit">mph</span></div>
+          <div class="metric-trend">↑ +2 mph since Aug</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-label">Launch Angle</div>
+          <div class="metric-value">18 <span class="metric-unit">deg</span></div>
+          <div class="metric-trend">↑ +4° since Aug</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card">
+      <div class="player-top">
+        <div class="avatar" style="background: #F5C4B3; color: #993C1D;">TR</div>
+        <div>
+          <div class="player-name">Tyler Reed</div>
+          <div class="player-meta">14U · Left-handed · Last session Apr 10</div>
+        </div>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric-box">
+          <div class="metric-label">Peak Exit Velo</div>
+          <div class="metric-value">88 <span class="metric-unit">mph</span></div>
+          <div class="metric-trend">↑ +5 mph since Aug</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-label">Avg Exit Velo</div>
+          <div class="metric-value">76 <span class="metric-unit">mph</span></div>
+          <div class="metric-trend">↑ +3 mph since Aug</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-label">Launch Angle</div>
+          <div class="metric-value">22 <span class="metric-unit">deg</span></div>
+          <div class="metric-trend" style="color: #993C1D;">↓ -2° since Aug</div>
+        </div>
+      </div>
+    </div>
+
+<div id="overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:10;"></div>
+
+    <div id="form-popup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; border-radius:12px; padding:28px; width:340px; z-index:20;">
+      <h2 style="font-size:16px; font-weight:600; margin-bottom:20px;">Log Metric Session</h2>
+
+      <label style="font-size:12px; color:#888;">Player Name</label>
+      <input id="input-name" type="text" placeholder="e.g. Jake Martinez" style="width:100%; padding:10px; margin:6px 0 14px; border:1px solid #ddd; border-radius:8px; font-size:14px;" />
+
+      <label style="font-size:12px; color:#888;">Peak Exit Velo (mph)</label>
+      <input id="input-peak" type="number" placeholder="e.g. 94" style="width:100%; padding:10px; margin:6px 0 14px; border:1px solid #ddd; border-radius:8px; font-size:14px;" />
+
+      <label style="font-size:12px; color:#888;">Avg Exit Velo (mph)</label>
+      <input id="input-avg" type="number" placeholder="e.g. 81" style="width:100%; padding:10px; margin:6px 0 14px; border:1px solid #ddd; border-radius:8px; font-size:14px;" />
+
+      <label style="font-size:12px; color:#888;">Launch Angle (degrees)</label>
+      <input id="input-angle" type="number" placeholder="e.g. 18" style="width:100%; padding:10px; margin:6px 0 20px; border:1px solid #ddd; border-radius:8px; font-size:14px;" />
+
+      <div style="display:flex; gap:10px;">
+        <button onclick="closeForm()" style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px; background:white; cursor:pointer; font-size:13px;">Cancel</button>
+        <button onclick="saveSession()" style="flex:1; padding:10px; border:none; border-radius:8px; background:#185FA5; color:white; cursor:pointer; font-size:13px;">Save</button>
+      </div>
+    </div>
+
+    <script>
+      function openForm() {
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('form-popup').style.display = 'block';
+      }
+
+      function closeForm() {
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('form-popup').style.display = 'none';
+      }
+
+      function saveSession() {
+        const name = document.getElementById('input-name').value;
+        const peak = document.getElementById('input-peak').value;
+        const avg = document.getElementById('input-avg').value;
+        const angle = document.getElementById('input-angle').value;
+
+        if (!name || !peak || !avg || !angle) {
+          alert('Please fill in all fields.');
+          return;
+        }
+
+        const initials = name.split(' ').map(w => w[0]).join('').toUpperCase();
+
+        const card = document.createElement('div');
+        card.className = 'player-card';
+        card.innerHTML = `
+          <div class="player-top">
+            <div class="avatar">${initials}</div>
+            <div>
+              <div class="player-name">${name}</div>
+              <div class="player-meta">Just added</div>
+            </div>
+          </div>
+          <div class="metrics-grid">
+            <div class="metric-box">
+              <div class="metric-label">Peak Exit Velo</div>
+              <div class="metric-value">${peak} <span class="metric-unit">mph</span></div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-label">Avg Exit Velo</div>
+              <div class="metric-value">${avg} <span class="metric-unit">mph</span></div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-label">Launch Angle</div>
+              <div class="metric-value">${angle} <span class="metric-unit">deg</span></div>
+            </div>
+          </div>
+        `;
+
+        document.body.appendChild(card);
+        closeForm();
+      }
+    </script>
+
+  </body>
+</html>
