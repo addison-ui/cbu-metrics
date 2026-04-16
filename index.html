@@ -15,7 +15,8 @@
       .search-bar { margin-bottom: 20px; }
       .search-bar input { width: 100%; max-width: 400px; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; background: white; outline: none; }
       .search-bar input:focus { border-color: #185FA5; }
-      .player-card { background: white; border-radius: 12px; padding: 20px 24px; margin-bottom: 14px; border: 1px solid #e8e8e8; }
+     .cards-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+.player-card { background: white; border-radius: 12px; padding: 20px 24px; border: 1px solid #e8e8e8; }
       .player-top { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
       .avatar { width: 44px; height: 44px; border-radius: 50%; background: #185FA5; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; color: white; flex-shrink: 0; }
       .player-name { font-size: 15px; font-weight: 700; color: #0a0a0a; }
@@ -42,11 +43,11 @@
     </div>
 
     <div class="search-bar">
-      <input id="search-input" type="text" placeholder="Search players..." onkeyup="filterPlayers()" />
-    </div>
+  <input id="search-input" type="text" placeholder="Search players..." onkeyup="filterPlayers()" />
+</div>
 
-    <div id="overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:10;"></div>
-
+<div id="cards-container" class="cards-container"></div>
+<div id="overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:10;"></div>
     <div id="form-popup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; border-radius:12px; padding:28px; width:340px; z-index:20;">
       <h2 style="font-size:16px; font-weight:700; margin-bottom:20px;">Log Metric Session</h2>
 
@@ -177,11 +178,11 @@
             <div class="metrics-grid">
               <div class="metric-box">
                 <div class="metric-label">Peak Exit Velo</div>
-                <div class="metric-value">${latest.peak_exit_velo} <span class="metric-unit">mph</span></div>
+                <div class="metric-value" style="${latest.peak_exit_velo >= 100 ? 'color: #1D9E75;' : ''}">${latest.peak_exit_velo} <span class="metric-unit">mph</span></div>
               </div>
               <div class="metric-box">
                 <div class="metric-label">Avg Exit Velo</div>
-                <div class="metric-value">${latest.avg_exit_velo} <span class="metric-unit">mph</span></div>
+                <div class="metric-value" style="${latest.avg_exit_velo >= 100 ? 'color: #1D9E75;' : ''}">${latest.avg_exit_velo} <span class="metric-unit">mph</span></div>
               </div>
               <div class="metric-box">
                 <div class="metric-label">Launch Angle</div>
@@ -191,7 +192,7 @@
             <div class="section-label">Session history</div>
             ${sessionRows}
           `;
-          document.body.appendChild(card);
+          document.getElementById('cards-container').appendChild(card);
         }
       }
 
